@@ -1,0 +1,26 @@
+<project name="MoosIMC" default="jar">
+
+  <property name="compile-encoding" value="UTF-8" />
+	
+  <path id="classpath.dependencies">
+    <pathelement location="lib/libimc.jar" />
+    <pathelement location="lib/moosbeans-0.2.1-SNAPSHOT.jar" />
+    <pathelement location="lib/org.slf4j.jar" />
+  </path>	
+	
+  <target name="jar">
+  	<mkdir dir="build"/>
+    <javac encoding="${compile-encoding}" srcdir="src" destdir="build" includes="**/*.java" fork="false">
+      <classpath refid="classpath.dependencies"/>
+    </javac>
+  	<unjar src="lib/libimc.jar" dest="build"/>
+  	<unjar src="lib/moosbeans-0.2.1-SNAPSHOT.jar" dest="build"/>
+  	<unjar src="lib/org.slf4j.jar" dest="build"/>
+  	 <jar destfile="MoosAdapter.jar" basedir="build" index="true">
+  	    <manifest>
+  	        <attribute name="Main-Class" value="pt.lsts.moosimc.MoosIMC"/>
+  	    </manifest>
+  	  </jar>
+  </target>
+
+</project>
