@@ -57,8 +57,15 @@ public class MoosIMC extends VehicleAdapter {
 	
 	@Consume
 	public void on(PlanControl pc) {
-		if (pc.getType() == TYPE.REQUEST && pc.getOp() == OP.START) {
-			moosClient.post(new MOOSMsg(MessageType.Register, "DEPLOY", "true"));
+		if (pc.getType() == TYPE.REQUEST) {
+			if (pc.getOp() == OP.START) {
+				moosClient.notify(new MOOSMsg(MessageType.Notify, "RETURN", "false"));
+				moosClient.notify(new MOOSMsg(MessageType.Notify, "DEPLOY", "true"));
+			}
+			else if (pc.getOp() == OP.STOP) {
+				moosClient.notify(new MOOSMsg(MessageType.Notify, "RETURN", "true"));
+				moosClient.notify(new MOOSMsg(MessageType.Notify, "DEPLOY", "false"));
+			}
 		}
 	}
 	
